@@ -1,9 +1,20 @@
 <template>
   <p>Edit the event here</p>
+  <button @click="edit">Edit Me</button>
 </template>
 
 <script>
 export default {
-  props: ['event']
+  props: ['event'],
+  inject: ['Gstore'],
+  methods: {
+    edit() {
+      this.Gstore.flashMessage = this.event.title + 'has been updated'
+      setTimeout(() => {
+        this.Gstore.flashMessage = ''
+      }, 3000)
+      this.$router.push({ name: 'EventDetails' })
+    }
+  }
 }
 </script>
