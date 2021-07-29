@@ -29,7 +29,7 @@
 
 import EventCard from '@/components/EventCard.vue'
 import EventService from '@/services/EventService.js'
-import { watchEffect } from '@vue/runtime-core'
+// import { watchEffect } from '@vue/runtime-core'
 // import axios from 'axios'
 export default {
   name: 'EventList',
@@ -48,22 +48,22 @@ export default {
       totalEvents: 0 // <--- Added this to store totalEvents
     }
   },
-  created() {
-    watchEffect(() => {
-      EventService.getEvents(2, this.page)
-        .then((response) => {
-          this.events = response.data
-          this.totalEvents = response.headers['x-total-count'] // <--- Store it
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    })
-  },
+  // created() {
+  //   watchEffect(() => {
+  //     EventService.getEvents(3, this.page)
+  //       .then((response) => {
+  //         this.events = response.data
+  //         this.totalEvents = response.headers['x-total-count'] // <--- Store it
+  //       })
+  //       .catch((error) => {
+  //         console.log(error)
+  //       })
+  //   })
+  // },
   computed: {
     hasNextPage() {
       // First, calculate total pages
-      let totalPages = Math.ceil(this.totalEvents / 2) // 2 is events per page
+      let totalPages = Math.ceil(this.totalEvents / 3) // 2 is events per page
 
       // Then check to see if the current page is less than the total pages.
       return this.page < totalPages
@@ -71,7 +71,7 @@ export default {
   },
   //eslint-disable-next-line no-unused-vars
   beforeRouteEnter(routeTo, routeFrom, next) {
-    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+    EventService.getEvents(3, parseInt(routeTo.query.page) || 1)
       .then((res) => {
         next((comp) => {
           comp.events = res.data
@@ -83,7 +83,7 @@ export default {
       })
   },
   beforeRouteUpdate(routeTo, routeFrom, next) {
-    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+    EventService.getEvents(3, parseInt(routeTo.query.page) || 1)
       .then((res) => {
         this.events = res.data
         this.totalEvents = res.headers['x-total-count']
