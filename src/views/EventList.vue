@@ -73,9 +73,9 @@ export default {
   beforeRouteEnter(routeTo, routeFrom, next) {
     EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
       .then((res) => {
-        next(comp =>{
+        next((comp) => {
           comp.events = res.data
-          comp.totalEvents = res.headers['x-total-count'] 
+          comp.totalEvents = res.headers['x-total-count']
         })
       })
       .catch(() => {
@@ -86,7 +86,7 @@ export default {
     EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
       .then((res) => {
         this.events = res.data
-        this.totalEvents = res.headers['x-total-count'] 
+        this.totalEvents = res.headers['x-total-count']
         next()
       })
       .catch(() => {
